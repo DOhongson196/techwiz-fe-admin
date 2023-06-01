@@ -17,7 +17,8 @@ const useAxios = () => {
       if (localStorage && typeof localStorageData === 'string') {
         localStorageData = JSON.parse(localStorageData);
         const accessToken = localStorageData?.accessToken;
-        const expires = jwtDecode(localStorageData?.accessToken);
+        const decodeToken = jwtDecode(localStorageData?.accessToken);
+        const expires = decodeToken.exp;
         if (Date.now() >= expires * 1000) {
           setLogin(false);
           localStorage.removeItem('admin');
