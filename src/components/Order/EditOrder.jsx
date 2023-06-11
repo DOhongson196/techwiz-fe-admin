@@ -48,7 +48,11 @@ function EditOrder() {
         });
       })
       .catch((res) => {
-        setError(res.response.data.message);
+        if (res.response?.status === 403) {
+          setError('You are not admin, you do not have permission!');
+        } else {
+          setError(res.response.data.message);
+        }
       });
   };
   return (

@@ -1,10 +1,16 @@
 import { Button, Col, Row } from 'antd';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 function Unauthorized() {
+  const { setLogin, setAuthTokens } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleOnClick = () => {
     localStorage.removeItem('admin');
+    setLogin(false);
+    localStorage.removeItem('admin');
+    setAuthTokens(null);
     navigate('/login');
   };
   return (

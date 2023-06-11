@@ -73,7 +73,7 @@ function DasboardPage() {
         }}
       >
         <div className="logo">
-          <h2>NoszShop</h2>
+          <h2>Incredibles</h2>
         </div>
         <Menu
           theme="dark"
@@ -203,7 +203,6 @@ function DasboardPage() {
             <div className="content-panel">
               <Routes>
                 <Route element={<PrivateRoute />}>
-                  <Route path="/" element={<HomePage />} exact></Route>
                   <Route path="/categories/list" element={<Categorieslist />}></Route>
                   <Route path="/categorie/add" element={<AddOrEditCategory />} key="a"></Route>
                   <Route path="/categorie/update/:id" element={<AddOrEditCategory />} key="u"></Route>
@@ -216,6 +215,7 @@ function DasboardPage() {
                   <Route path="/order/list" element={<OrderList />}></Route>
                   <Route path="/order/update/:id" element={<EditOrder />}></Route>
                 </Route>
+                <Route path="/" element={<HomePage />} exact></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/unauthorized" element={<Unauthorized />}></Route>
                 <Route path="/*" element={<NotFound />}></Route>

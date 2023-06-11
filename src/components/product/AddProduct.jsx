@@ -119,7 +119,11 @@ function AddProduct() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     } else {
       api
@@ -134,7 +138,11 @@ function AddProduct() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     }
   };
@@ -155,7 +163,6 @@ function AddProduct() {
               <Form.Item label="Name" name="name" rules={[{ required: true, min: 2 }]}>
                 <Input />
               </Form.Item>
-              <span style={{ color: 'red' }}>{error}</span>
 
               <Form.Item
                 label="Price"
@@ -232,8 +239,10 @@ function AddProduct() {
                   {manufacturers &&
                     manufacturers.map((item) => (
                       <Select.Option value={item.id} key={item.id}>
-                        <Image src={getManufacturerLogoUrl(item.logo)} height={32} width={32}></Image>
-                        {item.name}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <Image src={getManufacturerLogoUrl(item.logo)} height={40} width={40}></Image>
+                          {item.name}
+                        </div>
                       </Select.Option>
                     ))}
                 </Select>
@@ -262,6 +271,7 @@ function AddProduct() {
                 <ReactQuill theme="snow"></ReactQuill>
               </Form.Item>
             </Col>
+            <span style={{ color: 'red' }}>{error}</span>
             <Divider></Divider>
             <Col md={18}>
               <Button htmlType="submit" type="primary" style={{ float: 'left' }}>

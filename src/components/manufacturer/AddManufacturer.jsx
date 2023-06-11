@@ -71,7 +71,11 @@ function AddManufacturers() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     } else {
       api
@@ -86,7 +90,11 @@ function AddManufacturers() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     }
   };
@@ -105,7 +113,6 @@ function AddManufacturers() {
             <Form.Item label="Name" name="name" rules={[{ required: true, min: 2 }]}>
               <Input />
             </Form.Item>
-            <span style={{ color: 'red' }}>{error}</span>
             <Form.Item
               name="logoFile"
               label="Logo"
@@ -119,6 +126,7 @@ function AddManufacturers() {
             </Form.Item>
             {manufacturerId.id && <h3>Prelogo</h3>}
             {preview != '' && <Image src={getManufacturerLogoUrl(preview)} style={{ width: 100 }}></Image>}
+            <span style={{ color: 'red' }}>{error}</span>
             <Divider></Divider>
             <Button htmlType="submit" type="primary" style={{ float: 'right' }}>
               Submit

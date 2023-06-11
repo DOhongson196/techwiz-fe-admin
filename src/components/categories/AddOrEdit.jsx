@@ -51,7 +51,11 @@ function AddOrEditCategory() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     } else {
       api
@@ -66,7 +70,11 @@ function AddOrEditCategory() {
           });
         })
         .catch((res) => {
-          setError(res.response.data.message);
+          if (res.response?.status === 403) {
+            setError('You are not admin, you do not have permission!');
+          } else {
+            setError(res.response.data.message);
+          }
         });
     }
   };
@@ -86,13 +94,13 @@ function AddOrEditCategory() {
             <Form.Item label="Name" name="name" rules={[{ required: true, min: 2 }]}>
               <Input />
             </Form.Item>
-            <span style={{ color: 'red' }}>{error}</span>
             <Form.Item label="Status" name="status" rules={[{ required: true }]}>
               <Select>
                 <Select.Option value="0">Visible</Select.Option>
                 <Select.Option value="1">In-Visible</Select.Option>
               </Select>
             </Form.Item>
+            <span style={{ color: 'red' }}>{error}</span>
             <Divider></Divider>
             <Button htmlType="submit" type="primary" style={{ float: 'right' }}>
               Submit

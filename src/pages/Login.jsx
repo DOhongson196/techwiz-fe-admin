@@ -23,6 +23,7 @@ function Login() {
         setLogin(true);
         setAuthTokens(newValue);
         localStorage.setItem('admin', JSON.stringify(newValue));
+        localStorage.setItem('login', JSON.stringify(true));
         navigate('/');
       })
       .catch((err) => {
@@ -40,7 +41,7 @@ function Login() {
   };
   return (
     <Row>
-      {login ? (
+      {!login ? (
         <React.Fragment>
           <Col md={9}></Col>
           <Col md={6}>

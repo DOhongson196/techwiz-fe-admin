@@ -58,7 +58,19 @@ function OrderList() {
       console.log(response);
       setRender(!render);
     } catch (error) {
-      console.log(error);
+      if (error.response?.status === 403) {
+        Modal.error({
+          title: 'Error',
+          okText: 'OK',
+          content: 'You are not admin, you do not have permission!',
+        });
+      } else {
+        Modal.error({
+          title: 'Error deleting',
+          content: error?.response?.data?.message,
+          okText: 'OK',
+        });
+      }
     }
   };
 

@@ -17,7 +17,6 @@ function ListProduct() {
   const [page, setPage] = useState(0);
   const [render, setRender] = useState(false);
   const navigate = useNavigate();
-  console.log('render');
 
   const onChange = (pageNumber, pageSize) => {
     console.log(pageNumber, pageSize);
@@ -58,12 +57,20 @@ function ListProduct() {
       const response = await api.delete(API_PRODUCT + '/' + product.id);
       console.log(response);
       setRender(!render);
-    } catch (err) {
-      Modal.error({
-        title: 'Error deleting',
-        content: err?.response?.data?.message,
-        okText: 'OK',
-      });
+    } catch (error) {
+      if (error.response?.status === 403) {
+        Modal.error({
+          title: 'Error',
+          okText: 'OK',
+          content: 'You are not admin, you do not have permission!',
+        });
+      } else {
+        Modal.error({
+          title: 'Error deleting',
+          content: error?.response?.data?.message,
+          okText: 'OK',
+        });
+      }
     }
   };
 

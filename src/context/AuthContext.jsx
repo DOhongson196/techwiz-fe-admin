@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [login, setLogin] = useState(false);
-  let [authTokens, setAuthTokens] = useState(() =>
+  const [login, setLogin] = useState(() =>
+    localStorage.getItem('admin') ? JSON.parse(localStorage.getItem('login')) : false,
+  );
+  const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem('admin') ? JSON.parse(localStorage.getItem('admin')) : null,
   );
   let contextData = {
