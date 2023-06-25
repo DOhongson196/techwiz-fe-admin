@@ -26,7 +26,7 @@ function Categorieslist() {
   useEffect(() => {
     const fectchApi = async () => {
       try {
-        const response = await api.get(API_CATEGORY + `/page?size=${pagination.size}&sort=id&page=${page}`);
+        const response = await api.get(API_CATEGORY + `/size=${pagination.size}&sort=id&page=${page}`);
         setCategories(response.data.content);
         setPagination({
           ...pagination,
@@ -87,7 +87,7 @@ function Categorieslist() {
 
       <Row>
         <Col md={16}>
-          <Table dataSource={categories} size="smaill" rowKey="id" pagination={false}>
+          <Table dataSource={categories} size="small" rowKey="id" pagination={false}>
             <Column title="Category Id" key="id" dataIndex="id" width={120} align="center"></Column>
             <Column title="Name" key="name" dataIndex="name"></Column>
             <Column

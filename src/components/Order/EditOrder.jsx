@@ -71,17 +71,7 @@ function EditOrder() {
             <Form.Item label="Address" name="address" rules={[{ required: true, min: 5 }]}>
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Phone"
-              name="phone"
-              rules={[
-                { required: true, message: 'This field is required!' },
-                {
-                  type: 'number',
-                  message: 'Please input number!',
-                },
-              ]}
-            >
+            <Form.Item label="Phone" name="phone" rules={[{ required: true, message: 'This field is required!' }]}>
               <Input />
             </Form.Item>
             <Form.Item

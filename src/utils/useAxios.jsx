@@ -1,13 +1,10 @@
-import { Modal } from 'antd';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 const useAxios = () => {
   const { setLogin, setAuthTokens } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const axiosInstance = axios.create({});
 
@@ -22,12 +19,8 @@ const useAxios = () => {
         if (Date.now() >= expires * 1000) {
           setLogin(false);
           localStorage.removeItem('admin');
+          localStorage.removeItem('login');
           setAuthTokens(null);
-          return Modal.warning({
-            title: 'Login Expired',
-            onOk: () => navigate('/login'),
-            okText: 'Login',
-          });
         }
         config.headers = { authorization: `Bearer ${accessToken}` };
         return config;

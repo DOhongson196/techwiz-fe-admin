@@ -26,7 +26,7 @@ function ListManufacturers() {
   useEffect(() => {
     const fectchApi = async () => {
       try {
-        const response = await api.get(API_MANUFACTURER + `/page?size=${pagination.size}&sort=id&page=${page}`);
+        const response = await api.get(API_MANUFACTURER + `/size=${pagination.size}&sort=id&page=${page}`);
         setManufacturers(response.data.content);
         setPagination({
           ...pagination,
@@ -87,7 +87,7 @@ function ListManufacturers() {
 
       <Row>
         <Col md={16}>
-          <Table dataSource={manufacturers} size="smaill" rowKey="id" pagination={false}>
+          <Table dataSource={manufacturers} size="small" rowKey="id" pagination={false}>
             <Column title="Category Id" key="id" dataIndex="id" width={120} align="center"></Column>
             <Column
               title="Logo"

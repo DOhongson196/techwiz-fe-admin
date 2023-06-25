@@ -32,6 +32,7 @@ function ListOrderDetail({ orderId }) {
           totalPages: response.data.totalPages,
         });
         setOrderDetails(response.data.content);
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
@@ -41,7 +42,7 @@ function ListOrderDetail({ orderId }) {
   return (
     <Row>
       <Col md={20}>
-        <Table dataSource={OrderDetails} size="smaill" rowKey="id" pagination={false}>
+        <Table dataSource={OrderDetails} size="small" rowKey="nameProduct" pagination={false}>
           <Column title="Product Name" key="nameProduct" dataIndex="nameProduct"></Column>
           <Column title="Price" key="price" dataIndex="price"></Column>
           <Column title="Quantity" key="quantity" dataIndex="quantity"></Column>

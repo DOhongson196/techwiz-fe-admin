@@ -11,7 +11,7 @@ function OrderList() {
   const [orders, setOrders] = useState([]);
   const [query, setQuery] = useState('');
   const api = useAxios();
-  const [invoiceStatus, setInvoiceStatus] = useState(Number);
+  const [invoiceStatus, setInvoiceStatus] = useState([0, 1, 2]);
   const [pagination, setPagination] = useState({
     size: 5,
     totalElements: 0,
@@ -20,8 +20,6 @@ function OrderList() {
   const [page, setPage] = useState(0);
   const [render, setRender] = useState(false);
   const navigate = useNavigate();
-
-  console.log('render');
 
   const onChange = (pageNumber, pageSize) => {
     console.log(pageNumber, pageSize);
@@ -36,9 +34,10 @@ function OrderList() {
     const fectchApi = async () => {
       try {
         const response = await api.get(
-          API_ORDER + `/find2?query=${query}&status=${invoiceStatus}&page?size=${pagination.size}&sort=id&page=${page}`,
+          API_ORDER + `/find?query=${query}&status=${invoiceStatus}&size=${pagination.size}&sort=id&page=${page}`,
         );
         setOrders(response.data.content);
+        console.log(response);
         setPagination({
           ...pagination,
           totalElements: response.data.totalElements,
@@ -49,7 +48,7 @@ function OrderList() {
       }
     };
     fectchApi();
-  }, [render || page || query || invoiceStatus]);
+  }, [render, page, query, invoiceStatus]);
 
   const deleteOrder = async (order) => {
     console.log(order);
@@ -79,7 +78,6 @@ function OrderList() {
   };
 
   const onSelect = (value) => {
-    console.log(value);
     setInvoiceStatus(value);
   };
 
@@ -115,7 +113,7 @@ function OrderList() {
           </Form.Item>
         </Form>
       </Col>
-      <Col md={3} style={{ textAlign: 'right', marginLeft: 'auto' }}>
+      <Col md={3} style={{ textAlign: 'left', marginLeft: 'auto' }}>
         <Form>
           <Form.Item label="Invoice Status" name="invoiceStatus">
             <Select onChange={(e) => onSelect(e)}>
@@ -129,7 +127,7 @@ function OrderList() {
       </Col>
       <Divider></Divider>
       <Col md={24}>
-        <Table dataSource={orders} size="smaill" rowKey="id" pagination={false}>
+        <Table dataSource={orders} size="small" rowKey="id" pagination={false}>
           <Column title="Id" key="id" dataIndex="id" width={50} align="center"></Column>
           <Column title="Customer Name" key="customerName" dataIndex="customerName" width={150} align="center"></Column>
           <Column title="Address" key="address" dataIndex="address" align="center"></Column>
@@ -142,6 +140,17 @@ function OrderList() {
             dataIndex="invoiceStatus"
             width={60}
             align="center"
+            render={(_, { invoiceStatus }) => {
+              let name = 'Pending';
+              if (invoiceStatus === 0) {
+                name = 'Success';
+              }
+              if (invoiceStatus === 2) {
+                name = 'Delivering';
+              }
+
+              return <div>{name}</div>;
+            }}
           ></Column>
           <Column title="User Name" key="accountName" dataIndex="accountName" width={200} align="center"></Column>
           <Column

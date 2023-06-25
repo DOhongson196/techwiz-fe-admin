@@ -10,7 +10,7 @@ function ListProduct() {
   const [products, setProducts] = useState([]);
   const [query, setQuery] = useState('');
   const [pagination, setPagination] = useState({
-    size: 5,
+    size: 3,
     totalElements: 0,
     totalPages: 1,
   });
@@ -31,7 +31,7 @@ function ListProduct() {
     const fectchApi = async () => {
       try {
         const response = await api.get(
-          API_PRODUCT + `/find?query=${query}&page?size=${pagination.size}&sort=id&page=${page}`,
+          API_PRODUCT + `/find?query=${query}&size=${pagination.size}&sort=id&page=${page}`,
         );
         setProducts(response.data.content);
         console.log(getProductImageUrl(response.data.content[1].image));
@@ -99,7 +99,7 @@ function ListProduct() {
       <Divider></Divider>
       <Row>
         <Col md={24}>
-          <Table dataSource={products} size="smaill" rowKey="id" pagination={false}>
+          <Table dataSource={products} size="small" rowKey="id" pagination={false}>
             <Column title="Category Id" key="id" dataIndex="id" width={120} align="center"></Column>
             <Column
               title="Image"

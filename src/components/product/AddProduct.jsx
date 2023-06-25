@@ -107,6 +107,7 @@ function AddProduct() {
             price: '',
             discount: '',
             description: '',
+            image: null,
             featured: false,
           });
           Modal.confirm({
