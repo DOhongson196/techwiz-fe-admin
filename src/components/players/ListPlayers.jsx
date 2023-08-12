@@ -1,13 +1,13 @@
-import { Button, Col, Divider, Image, Modal, Pagination, Row, Space, Table } from 'antd';
+import { Button, Col, Divider, Form, Image, Input, Modal, Pagination, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { API_MANUFACTURER, getManufacturerLogoUrl } from '../../services/Constant';
+import { API_PLAYER, getPlayerImageUrl } from '../../services/Constant';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
 
-function ListManufacturers() {
-  const [manufacturers, setManufacturers] = useState([]);
+function ListPlayer() {
+  const [players, setPlayers] = useState([]);
   const [pagination, setPagination] = useState({
     size: 5,
     totalElements: 0,
@@ -16,18 +16,22 @@ function ListManufacturers() {
   const [page, setPage] = useState(0);
   const [render, setRender] = useState(false);
   const navigate = useNavigate();
-  const api = useAxios();
 
   const onChange = (pageNumber, pageSize) => {
     console.log(pageNumber, pageSize);
     setPage(pageNumber - 1);
   };
+  const api = useAxios();
 
   useEffect(() => {
     const fectchApi = async () => {
       try {
-        const response = await api.get(API_MANUFACTURER + `/size=${pagination.size}&sort=id&page=${page}`);
-        setManufacturers(response.data.content);
+        const response = await api.get(
+          API_PLAYER + `/paged?size=${pagination.size}&sort=id&page=${page}`,
+        );
+        console.log(response)
+        setPlayers(response.data.content);
+        console.log(getPlayerImageUrl(response.data.content[1].image));
         setPagination({
           ...pagination,
           totalElements: response.data.totalElements,
@@ -40,14 +44,14 @@ function ListManufacturers() {
     fectchApi();
   }, [render || page]);
 
-  const editCategory = (manufacturer) => {
-    navigate('/manufacturer/update/' + manufacturer.id);
+  const editCategory = (player) => {
+    navigate('/player/update/' + player.id);
   };
 
-  const deleteCategory = async (manufacturer) => {
-    console.log(manufacturer);
+  const deleteCategory = async (player) => {
+    console.log(player);
     try {
-      const response = await api.delete(API_MANUFACTURER + '/' + manufacturer.id);
+      const response = await api.delete(API_PLAYER + '/' + player.id);
       console.log(response);
       setRender(!render);
     } catch (error) {
@@ -67,13 +71,13 @@ function ListManufacturers() {
     }
   };
 
-  const openDeleteConfirmModal = (manufacturer) => {
-    const message = 'Are you sure delete manufacturer ' + manufacturer.name;
+  const openDeleteConfirmModal = (player) => {
+    const message = 'Are you sure delete player ' + player.name;
 
     Modal.confirm({
       title: 'Confirm',
       icon: <ExclamationCircleOutlined />,
-      onOk: () => deleteCategory(manufacturer),
+      onOk: () => deleteCategory(player),
       okText: 'Delete',
       cancelText: 'Cancel',
       content: message,
@@ -82,26 +86,31 @@ function ListManufacturers() {
 
   return (
     <>
-      <h1>List Manufacturers</h1>
+      <h1>List Players</h1>
       <Divider></Divider>
-
       <Row>
-        <Col md={16}>
-          <Table dataSource={manufacturers} size="small" rowKey="id" pagination={false}>
-            <Column title="Category Id" key="id" dataIndex="id" width={120} align="center"></Column>
+        <Col md={24}>
+          <Table dataSource={players} size="small" rowKey="id" pagination={false}>
+            <Column title="Id" key="id" dataIndex="id" width={60} align="center"></Column>
             <Column
-              title="Logo"
-              key="logo"
-              dataIndex="logo"
+              title="Image"
+              key="image"
+              dataIndex="image"
               width={140}
               align="center"
               render={(_, record) => (
                 <Space size="middle">
-                  <Image width={80} height={80} src={getManufacturerLogoUrl(record.logo)}></Image>
+                  <Image width={100} height={100} src={getPlayerImageUrl(record.image)}></Image>
                 </Space>
               )}
             ></Column>
             <Column title="Name" key="name" dataIndex="name"></Column>
+            <Column title="Position" key="position" dataIndex="position" width={120} align="center"></Column>
+            <Column title="National" key="national" dataIndex="national" width={120} align="center"></Column>
+            <Column title="Weight" key="weight" dataIndex="weight" width={100} align="center"></Column>
+            <Column title="Number" key="number" dataIndex="number" width={60} align="center"></Column>
+            <Column title="Height" key="height" dataIndex="height" width={100} align="center"></Column>
+            <Column title="Date Of Birth" key="dateOfBirth" dataIndex="dateOfBirth" width={140} align="center"></Column>
             <Column
               title="Action"
               key="action"
@@ -143,4 +152,4 @@ function ListManufacturers() {
   );
 }
 
-export default ListManufacturers;
+export default ListPlayer;

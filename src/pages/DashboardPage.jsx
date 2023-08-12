@@ -15,8 +15,6 @@ import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import AddOrEditCategory from '../components/categories/AddOrEdit';
 import Categorieslist from '../components/categories/List';
 import HomePage from '../components/home/home';
-import AddManufacturers from '../components/manufacturer/AddManufacturer';
-import ListManufacturers from '../components/manufacturer/ListManufacturer';
 import AddProduct from '../components/product/AddProduct';
 import ListProduct from '../components/product/ListProduct';
 import PrivateRoute from '../utils/PrivateRoute';
@@ -28,6 +26,8 @@ import OrderList from '../components/Order/OrderList';
 import EditOrder from '../components/Order/EditOrder';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
+import ListPlayer from '../components/players/ListPlayers';
+import AddPlayer from '../components/players/AddOrEditPlayers';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -73,7 +73,7 @@ function DasboardPage() {
         }}
       >
         <div className="logo">
-          <h2>Incredibles</h2>
+          <h2>VILLARREAL</h2>
         </div>
         <Menu
           theme="dark"
@@ -107,20 +107,20 @@ function DasboardPage() {
             },
             {
               key: '3',
-              icon: <TagsOutlined />,
-              label: 'Manufacturers',
+              icon: <LaptopOutlined />,
+              label: 'Player',
               children: [
                 {
                   key: '31',
                   icon: <FileAddOutlined />,
-                  label: 'Add or Edit Manufacturer',
-                  onClick: () => navigate('/manufacturer/add'),
+                  label: 'Add or Edit Product',
+                  onClick: () => navigate('/player/add'),
                 },
                 {
                   key: '32',
                   icon: <UnorderedListOutlined />,
-                  label: 'Manufacturers List',
-                  onClick: () => navigate('/manufacturers/list'),
+                  label: 'Player List',
+                  onClick: () => navigate('/players/list'),
                 },
               ],
             },
@@ -206,12 +206,12 @@ function DasboardPage() {
                   <Route path="/categories/list" element={<Categorieslist />}></Route>
                   <Route path="/categorie/add" element={<AddOrEditCategory />} key="a"></Route>
                   <Route path="/categorie/update/:id" element={<AddOrEditCategory />} key="u"></Route>
-                  <Route path="/manufacturers/list" element={<ListManufacturers />}></Route>
-                  <Route path="/manufacturer/add" element={<AddManufacturers />} key="a"></Route>
-                  <Route path="/manufacturer/update/:id" element={<AddManufacturers />} key="u"></Route>
                   <Route path="/products/list" element={<ListProduct />}></Route>
                   <Route path="/product/add" element={<AddProduct />} key="a"></Route>
                   <Route path="/product/update/:id" element={<AddProduct />} key="u"></Route>
+                  <Route path="/players/list" element={<ListPlayer />}></Route>
+                  <Route path="/player/add" element={<AddPlayer />} key="a"></Route>
+                  <Route path="/player/update/:id" element={<AddPlayer />} key="u"></Route>
                   <Route path="/order/list" element={<OrderList />}></Route>
                   <Route path="/order/update/:id" element={<EditOrder />}></Route>
                 </Route>

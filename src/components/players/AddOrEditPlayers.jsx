@@ -1,36 +1,33 @@
-import { Button, Checkbox, Col, Divider, Form, Image, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
+import { Button, Checkbox, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import useAxios from '../../utils/useAxios';
-import { API_CATEGORY, API_PRODUCT } from '../../services/Constant';
+import {  API_PLAYER } from '../../services/Constant';
 
-function AddProduct() {
+function AddPlayer() {
   const [error, setError] = useState('');
-  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
-  const productId = useParams();
+  const playerId = useParams();
   const [form] = Form.useForm();
   const api = useAxios();
 
   useEffect(() => {
-    if (productId.id) {
+    if (playerId.id) {
       const fectchApi = async () => {
         try {
-          const response = await api.get(API_PRODUCT + '/' + productId.id);
+          const response = await api.get(API_PLAYER + '/' + playerId.id);
           form.setFieldsValue({
-            id: productId.id,
+            id: playerId.id,
             name: response.data.name,
-            price: response.data.price,
-            discount: response.data.discount,
-            status: response.data.status,
-            quantity: response.data.quantity,
-            description: response.data.description,
-            categoryId: response.data.categoryId,
-            isFeatured: response.data.isFeatured,
+            position: response.data.position,
+            national: response.data.national,
+            weight: response.data.weight,
+            height: response.data.height,
+            number: response.data.number,
+            // dateOfBirth: new Date(response.data.dateOfBirth.format('dd/MM/yyyy')).toLocaleDateString(),
             image: null,
           });
         } catch (error) {
@@ -39,16 +36,6 @@ function AddProduct() {
       };
       fectchApi();
     }
-    const loadData = async () => {
-      try {
-        const responseCategories = await api.get(API_CATEGORY);
-        setCategories(responseCategories.data);
-
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    loadData();
   }, []);
 
   const handleImageRemoved = async (info) => {
@@ -56,13 +43,13 @@ function AddProduct() {
 
     if (info.fileName) {
       try {
-        await api.delete(deteleProductImage(info.fileName));
+        await api.delete(detelePlayerImage(info.fileName));
       } catch (error) {
         console.log(error);
       }
     } else if (info.response && info.response.filename) {
       try {
-        await api.delete(deteleProductImage(info.response.filename));
+        await api.delete(detelePlayerImage(info.response.filename));
       } catch (error) {
         console.log(error);
       }
@@ -86,29 +73,32 @@ function AddProduct() {
       formValue = {
         ...formValue,
         image: formValue.image[0].response,
+        dateOfBirth: formValue.dateOfBirth.format('YYYY-MM-DD'),
       };
       console.log(formValue);
     }
-    if (!productId.id) {
+    if (!playerId.id) {
       api
-        .post(API_PRODUCT, formValue)
+        .post(API_PLAYER, formValue)
         .then((res) => {
           console.log(res);
           form.setFieldsValue({
             name: '',
-            price: '',
-            discount: '',
-            description: '',
+            position: '',
+            national: '',
+            height: '',
+            weight: '',
+            number: '',
+            dateOfBirth: null,
             image: null,
-            featured: false,
           });
           Modal.confirm({
             icon: <ExclamationCircleOutlined />,
             title: 'OK',
-            content: 'Add Product success',
-            onOk: () => navigate('/products/list'),
-            cancelText: 'Continue Add Product?',
-            okText: 'List Products',
+            content: 'Add Player success',
+            onOk: () => navigate('/players/list'),
+            cancelText: 'Continue Add Player?',
+            okText: 'List Players',
           });
         })
         .catch((res) => {
@@ -120,14 +110,14 @@ function AddProduct() {
         });
     } else {
       api
-        .patch(API_PRODUCT + '/' + productId.id, formValue)
+        .patch(API_PLAYER + '/' + playerId.id, formValue)
         .then((res) => {
           console.log(res);
           Modal.success({
             title: 'OK',
-            content: 'Edit Product success',
-            onOk: () => navigate('/products/list'),
-            okText: 'List Products',
+            content: 'Edit Player success',
+            onOk: () => navigate('/players/list'),
+            okText: 'List Players',
           });
         })
         .catch((res) => {
@@ -141,14 +131,14 @@ function AddProduct() {
   };
   return (
     <div>
-      <h1>{productId.id ? 'Update Products' : 'Add Products'}</h1>
+      <h1>{playerId.id ? 'Update Players' : 'Add Players'}</h1>
       <Divider></Divider>
-      <Form form={form} layout="vertical" className="form" onFinish={onSubmitForm} key={productId.id}>
+      <Form form={form} layout="vertical" className="form" onFinish={onSubmitForm} key={playerId.id}>
         <Row>
           <Col md={12}>
             <Col md={18}>
-              {productId.id && (
-                <Form.Item label="Product ID" name="id">
+              {playerId.id && (
+                <Form.Item label="Player ID" name="id">
                   <Input readOnly />
                 </Form.Item>
               )}
@@ -157,29 +147,13 @@ function AddProduct() {
                 <Input />
               </Form.Item>
 
-              <Form.Item
-                label="Price"
-                name="price"
-                rules={[
-                  { required: true, message: 'This field is required!' },
-                  {
-                    type: 'number',
-                    message: 'Please input number!',
-                  },
-                ]}
-              >
-                <InputNumber
-                  min={0}
-                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                  parser={(value) => value.replace(/$\s?|(,*)/g, '')}
-                  style={{ width: '100%' }}
-                  addonAfter={'$'}
-                ></InputNumber>
+              <Form.Item label="National" name="national" rules={[{ required: true, min: 2 }]}>
+                <Input />
               </Form.Item>
 
               <Form.Item
-                label="Quantity"
-                name="quantity"
+                label="Number"
+                name="number"
                 rules={[
                   { required: true, message: 'This field is required!' },
                   {
@@ -194,8 +168,8 @@ function AddProduct() {
               </Form.Item>
 
               <Form.Item
-                label="Discount"
-                name="discount"
+                label="Height"
+                name="height"
                 rules={[
                   { required: true, message: 'This field is required!' },
                   {
@@ -204,20 +178,26 @@ function AddProduct() {
                   },
                 ]}
               >
-                <InputNumber
-                  min={0}
-                  max={100}
-                  formatter={(value) => `${value}`}
-                  parser={(value) => value.replace('%', '')}
-                  style={{ width: '100%' }}
-                  addonAfter={'%'}
+              <InputNumber
+              style={{ width: '100%' }}
                 ></InputNumber>
               </Form.Item>
 
-              <Form.Item label="Featured" name="isFeatured" valuePropName="checked">
-                <Checkbox style={{ marginRight: 8 }}>Click here!</Checkbox>
+              <Form.Item
+                label="Weight"
+                name="weight"
+                rules={[
+                  { required: true, message: 'This field is required!' },
+                  {
+                    type: 'number',
+                    message: 'Please input number!',
+                  },
+                ]}
+              >
+              <InputNumber
+              style={{ width: '100%' }}
+                ></InputNumber>
               </Form.Item>
-
 
             </Col>
           </Col>
@@ -226,46 +206,40 @@ function AddProduct() {
           </Col>
           <Col md={11}>
             <Col md={18}>
-            <Form.Item label="Status" name="status" rules={[{ required: true }]}>
-                <Select placeholder="Select product status">
-                  <Select.Option value="0">In Stock</Select.Option>
-                  <Select.Option value="1">Out Of Stock</Select.Option>
-                  <Select.Option value="2">Discontinue</Select.Option>
-                </Select>
+            <Form.Item label="Position" name="position" rules={[{ required: true, min: 2 }]}>
+                <Input />
               </Form.Item>
-              <Form.Item label="Category" name="categoryId" rules={[{ required: true }]}>
-                <Select placeholder="Select Category">
-                  {categories &&
-                    categories.map((item) => (
-                      <Select.Option value={item.id} key={item.id}>
-                        {item.name}
-                      </Select.Option>
-                    ))}
-                </Select>
-              </Form.Item>
+
+
+              <Form.Item
+                            label = 'Date Of Birth'
+                            name="dateOfBirth"
+                            rules = {[{required: true}]}
+                            hasFeedback
+                            >
+                                <DatePicker></DatePicker>
+                        </Form.Item>
+
 
               <Form.Item
                 label="Main Image"
                 name="image"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
-                rules={[{ required: productId.id ? false : true }]}
+                rules={[{ required: playerId.id ? false : true }]}
               >
                 <Upload
                   listType="picture"
                   accept=".jpg,.png,.gif"
                   maxCount={1}
                   onRemove={handleImageRemoved}
-                  action={API_PRODUCT + '/images'}
+                  action={API_PLAYER + '/images'}
                 >
                   <Button icon={<UploadOutlined />}></Button>
                 </Upload>
               </Form.Item>
-            </Col>
-            <Col md={24}>
-              <Form.Item label="Description" name="description">
-                <ReactQuill theme="snow"></ReactQuill>
-              </Form.Item>
+
+
             </Col>
             <span style={{ color: 'red' }}>{error}</span>
             <Divider></Divider>
@@ -281,4 +255,4 @@ function AddProduct() {
   );
 }
 
-export default AddProduct;
+export default AddPlayer;

@@ -1,5 +1,5 @@
 .ant-layout {
-  height: 98.5vh;
+  min-height: 98.5vh;
 }
 
 .ant-layout-header {
@@ -20,5 +20,5 @@
 }
 
 .content-panel {
-  height: 82vh;
+  min-height: 82vh;
 }

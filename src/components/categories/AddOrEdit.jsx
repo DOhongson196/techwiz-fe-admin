@@ -1,9 +1,9 @@
 import { Button, Col, Divider, Form, Input, Modal, Row, Select } from 'antd';
 import { useEffect, useState } from 'react';
-import { API_CATEGORY } from '../../services/constant';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAxios from '../../utils/useAxios';
+import { API_CATEGORY } from '../../services/Constant';
 
 function AddOrEditCategory() {
   const [error, setError] = useState('');
@@ -18,7 +18,7 @@ function AddOrEditCategory() {
         try {
           const response = await api.get(API_CATEGORY + '/' + categoryId.id);
           form.setFieldsValue({
-            categoryId: response.data.id,
+            id: categoryId.id,
             name: response.data.name,
             status: response.data.status,
           });

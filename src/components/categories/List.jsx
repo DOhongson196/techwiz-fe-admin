@@ -26,7 +26,7 @@ function Categorieslist() {
   useEffect(() => {
     const fectchApi = async () => {
       try {
-        const response = await api.get(API_CATEGORY + `/size=${pagination.size}&sort=id&page=${page}`);
+        const response = await api.get(API_CATEGORY + `/page?size=${pagination.size}&sort=id&page=${page}`);
         setCategories(response.data.content);
         setPagination({
           ...pagination,
@@ -86,15 +86,16 @@ function Categorieslist() {
       <Divider></Divider>
 
       <Row>
-        <Col md={16}>
+        <Col md={24}>
           <Table dataSource={categories} size="small" rowKey="id" pagination={false}>
-            <Column title="Category Id" key="id" dataIndex="id" width={120} align="center"></Column>
-            <Column title="Name" key="name" dataIndex="name"></Column>
+            <Column title="Category Id" key="id" dataIndex="id" width={140} align="center"></Column>
+            <Column title="Category Name" key="name" dataIndex="name"></Column>
             <Column
-              title="Status"
+              title="Category Status"
               key="status"
               dataIndex="status"
-              width={100}
+              align="center"
+              width={180}
               render={(_, { status }) => {
                 let color = 'volcano';
                 let name = 'In-visible';
@@ -110,7 +111,7 @@ function Categorieslist() {
               title="Action"
               key="action"
               align="center"
-              width={240}
+              width={340}
               render={(_, record) => (
                 <Space size="middle">
                   <Button key={record.key} type="primary" size="small" onClick={() => editCategory(record)}>

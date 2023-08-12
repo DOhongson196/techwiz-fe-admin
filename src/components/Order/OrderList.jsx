@@ -113,9 +113,9 @@ function OrderList() {
           </Form.Item>
         </Form>
       </Col>
-      <Col md={3} style={{ textAlign: 'left', marginLeft: 'auto' }}>
+      <Col md={4} style={{ textAlign: 'left', marginLeft: 'auto' }}>
         <Form>
-          <Form.Item label="Invoice Status" name="invoiceStatus">
+          <Form.Item label="Invoice Status" name="invoiceStatus" initialValue="All">
             <Select onChange={(e) => onSelect(e)}>
               <Select.Option value="0,1,2">All</Select.Option>
               <Select.Option value="0">Success</Select.Option>

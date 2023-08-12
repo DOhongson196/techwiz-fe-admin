@@ -10,7 +10,7 @@ function ListProduct() {
   const [products, setProducts] = useState([]);
   const [query, setQuery] = useState('');
   const [pagination, setPagination] = useState({
-    size: 3,
+    size: 5,
     totalElements: 0,
     totalPages: 1,
   });
@@ -33,6 +33,7 @@ function ListProduct() {
         const response = await api.get(
           API_PRODUCT + `/find?query=${query}&size=${pagination.size}&sort=id&page=${page}`,
         );
+        console.log(response)
         setProducts(response.data.content);
         console.log(getProductImageUrl(response.data.content[1].image));
         setPagination({
@@ -115,10 +116,10 @@ function ListProduct() {
             ></Column>
             <Column title="Name" key="name" dataIndex="name"></Column>
             <Column title="Price" key="price" dataIndex="price" width={120}></Column>
+            <Column title="Quantity" key="quantity" dataIndex="quantity" width={120}></Column>
             <Column title="Discount" key="discount" dataIndex="discount" width={120}></Column>
             <Column title="Category" key="categoryName" dataIndex="categoryName" width={140}></Column>
-            <Column title="Manufacturer" key="manufacturerName" dataIndex="manufacturerName" width={140}></Column>
-            <Column title="Status" key="status" dataIndex="status" width={200}></Column>
+            <Column title="Status" key="status" dataIndex="status" width={120}></Column>
             <Column
               title="Action"
               key="action"
