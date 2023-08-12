@@ -1,7 +1,7 @@
 import { Button, Col, Divider, Form, Input, Modal, Row, Select } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_ORDER } from '../../services/constant';
+import { API_ORDER } from '../../services/Constant';
 import useAxios from '../../utils/useAxios';
 
 function EditOrder() {

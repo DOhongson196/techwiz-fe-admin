@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListOrderDetail from './ListOrderDetail';
 import useAxios from '../../utils/useAxios';
-import { API_ORDER } from '../../services/constant';
+import { API_ORDER } from '../../services/Constant';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);

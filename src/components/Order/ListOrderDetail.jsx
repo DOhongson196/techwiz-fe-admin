@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Pagination, Row, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import useAxios from '../../utils/useAxios';
-import { API_ORDER } from '../../services/constant';
+import { API_ORDER } from '../../services/Constant';
 
 function ListOrderDetail({ orderId }) {
   const [OrderDetails, setOrderDetails] = useState([]);
