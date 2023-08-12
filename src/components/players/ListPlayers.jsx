@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Image, Input, Modal, Pagination, Row, Space, Table } from 'antd';
+import { Button, Col, Divider, Image, Modal, Pagination, Row, Space, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { API_PLAYER, getPlayerImageUrl } from '../../services/Constant';

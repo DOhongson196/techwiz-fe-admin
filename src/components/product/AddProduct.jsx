@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Image, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import useAxios from '../../utils/useAxios';
-import { API_CATEGORY, API_PRODUCT } from '../../services/Constant';
+import { API_CATEGORY, API_PRODUCT, deteleProductImage } from '../../services/Constant';
 
 function AddProduct() {
   const [error, setError] = useState('');

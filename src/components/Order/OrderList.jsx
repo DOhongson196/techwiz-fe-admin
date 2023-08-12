@@ -2,10 +2,10 @@ import { Button, Col, Divider, Form, Input, Modal, Pagination, Row, Select, Spac
 import Column from 'antd/es/table/Column';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { API_ORDER } from '../../services/constant';
 import { useNavigate } from 'react-router-dom';
 import ListOrderDetail from './ListOrderDetail';
 import useAxios from '../../utils/useAxios';
+import { API_ORDER } from '../../services/constant';
 
 function OrderList() {
   const [orders, setOrders] = useState([]);

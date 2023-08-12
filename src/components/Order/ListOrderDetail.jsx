@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { API_ORDER } from '../../services/constant';
 import PropTypes from 'prop-types';
 import { Col, Pagination, Row, Table } from 'antd';
 import Column from 'antd/es/table/Column';
 import useAxios from '../../utils/useAxios';
+import { API_ORDER } from '../../services/constant';
 
 function ListOrderDetail({ orderId }) {
   const [OrderDetails, setOrderDetails] = useState([]);

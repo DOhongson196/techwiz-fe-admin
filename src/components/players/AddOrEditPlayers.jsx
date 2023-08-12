@@ -1,11 +1,11 @@
-import { Button, Checkbox, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Row, Select, Upload } from 'antd';
+import { Button, Col, DatePicker, Divider, Form, Input, InputNumber, Modal, Row, Upload } from 'antd';
 import { useEffect, useState } from 'react';
 
 import { ExclamationCircleOutlined, UploadOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
 import useAxios from '../../utils/useAxios';
-import {  API_PLAYER } from '../../services/Constant';
+import {  API_PLAYER, detelePlayerImage } from '../../services/Constant';
 
 function AddPlayer() {
   const [error, setError] = useState('');
